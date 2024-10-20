@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: reservation_service
+      POSTGRES_USER: postgres #todo
+      POSTGRES_PASSWORD: admin   #todo
+
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  tests:
+    build: .
+    command: ["pytest", "--cov=app", "--cov-report=html"]
+    depends_on:
+      - api
