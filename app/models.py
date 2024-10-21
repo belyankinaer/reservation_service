@@ -1,6 +1,5 @@
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, TIMESTAMP
-
+from sqlalchemy import Column, Integer, String, TIMESTAMP, ForeignKey
 
 Base = declarative_base()
 
@@ -19,7 +18,7 @@ class Reservation(Base):
 
     id = Column(Integer, primary_key=True)  # Уникальный идентификатор резервирования
     reservation_id = Column(String(50), unique=True, nullable=False)  # Идентификатор резервирования
-    product_id = Column(String(50), nullable=False)  # Идентификатор товара (внешний ключ)
+    product_id = Column(String(50), ForeignKey('products.product_id'), nullable=False)
     quantity = Column(Integer, nullable=False)  # Количество зарезервированных единиц
     timestamp = Column(TIMESTAMP(timezone=True), server_default='CURRENT_TIMESTAMP')  # Ensure timezone=True
     status = Column(String(20), default='pending')  # Статус резервирования
