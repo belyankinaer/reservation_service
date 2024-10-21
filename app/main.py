@@ -1,7 +1,7 @@
+import asyncio
 import uvicorn
 from fastapi import FastAPI
 from app.db_manager import DatabaseManager
-
 from app.routers import router
 
 app = FastAPI()
@@ -9,10 +9,12 @@ app.include_router(router)
 
 db_manager = DatabaseManager()
 
+async def main():
+    await db_manager.create_database()
+    await db_manager.create_tables()
+    await db_manager.add_product("P001", "Продукт 1", 100)
+    await db_manager.add_product("P002", "Продукт 2", 150)
+
 if __name__ == "__main__":
-    db_manager.create_database()
-    db_manager.create_tables()
-    db_manager.add_product("P001", "Продукт 1", 100)
-    db_manager.add_product("P002", "Продукт 2", 150)
-    # uvicorn.run("main:app", host="127.0.0.1", port=8000)
-    uvicorn.run("main:app", host="0.0.0.0", port=8000)
+    asyncio.run(main())  # Run the main async function
+    uvicorn.run(app, host="127.0.0.1", port=8000)  # Start the FastAPI app

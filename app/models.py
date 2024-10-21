@@ -3,6 +3,8 @@ from sqlalchemy import Column, Integer, String, TIMESTAMP, ForeignKey
 
 Base = declarative_base()
 
+
+
 class Product(Base):
     __tablename__ = 'products'
 
@@ -23,3 +25,9 @@ class Reservation(Base):
     timestamp = Column(TIMESTAMP(timezone=True), server_default='CURRENT_TIMESTAMP')  # Ensure timezone=True
     status = Column(String(20), default='pending')  # Статус резервирования
 
+
+model_mapping = {
+    "Product": Product,
+    "Reservation": Reservation,
+
+}
