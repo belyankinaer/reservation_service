@@ -11,7 +11,7 @@ from sqlalchemy.ext.asyncio import async_sessionmaker
 from sqlalchemy import select, update, func, text
 from fastapi import HTTPException
 
-from app.constants import DATABASE_URL, DATABASE_URL_2, URL_POSTGRES
+from app.constants import DATABASE_URL, URL_POSTGRES
 from app.models import Product, Reservation, Base
 from app.utils import async_session_decorator
 
