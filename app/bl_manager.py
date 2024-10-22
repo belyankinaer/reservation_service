@@ -4,7 +4,7 @@ from datetime import datetime
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from sqlalchemy import select, update, func, text
+from sqlalchemy import select, update, func
 from fastapi import HTTPException
 
 from app.db_manager import DatabaseManager
@@ -12,8 +12,6 @@ from app.logging_config import setup_logging
 from app.models import Product, model_mapping, Reservation
 from app.utils import async_session_decorator
 
-
-# todo проверка что такого продукта нет
 
 class BLManager:
 
@@ -64,7 +62,8 @@ class BLManager:
             self.logger.error(f"Error getting data from database: {e}")
 
 
-    async def check_quantity_product_at_stock(self, data_product: Product, quantity: int):
+    @staticmethod
+    async def check_quantity_product_at_stock(data_product: Product, quantity: int):
         """
         Проверяет, достаточно ли количества товара на складе.
         :param data_product: данные о товаре
