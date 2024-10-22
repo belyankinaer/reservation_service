@@ -71,7 +71,7 @@ class BLManager:
         :param quantity: колво-товаров, которое нужно зарезервировать
         :return: ничего либо ошибку если товара меньше чем нужно
         """
-        if not data_product and data_product.quantity < quantity:
+        if not data_product or data_product.quantity < quantity:
             raise HTTPException(status_code=400, detail="Недостаточно товара на складе.")
 
     async def update_product_at_stock(self, data_product: Product, quantity: int, session: AsyncSession):
