@@ -3171,3 +3171,555 @@ WHERE products.product_id = $1::VARCHAR
 2024-10-21 21:15:00,166 - INFO - INSERT INTO reservations (reservation_id, product_id, quantity, timestamp, status) VALUES ($1::VARCHAR, $2::VARCHAR, $3::INTEGER, $4::TIMESTAMP WITH TIME ZONE, $5::VARCHAR) RETURNING reservations.id
 2024-10-21 21:15:00,166 - INFO - [generated in 0.00040s] ('11gghhht501', 'P001', 1, datetime.datetime(2024, 10, 21, 21, 15, 0, 164040), 'success')
 2024-10-21 21:15:00,167 - INFO - COMMIT
+2024-10-22 09:15:17,228 - INFO - select pg_catalog.version()
+2024-10-22 09:15:17,229 - INFO - [raw sql] ()
+2024-10-22 09:15:17,233 - INFO - select current_schema()
+2024-10-22 09:15:17,233 - INFO - [raw sql] ()
+2024-10-22 09:15:17,234 - INFO - show standard_conforming_strings
+2024-10-22 09:15:17,234 - INFO - [raw sql] ()
+2024-10-22 09:15:17,236 - INFO - BEGIN (implicit)
+2024-10-22 09:15:17,237 - INFO - SELECT 1 FROM pg_database WHERE datname='reservation_service'
+2024-10-22 09:15:17,237 - INFO - [generated in 0.00022s] ()
+2024-10-22 09:15:17,238 - INFO - COMMIT
+2024-10-22 09:15:21,241 - INFO - select pg_catalog.version()
+2024-10-22 09:15:21,241 - INFO - [raw sql] ()
+2024-10-22 09:15:21,244 - INFO - select current_schema()
+2024-10-22 09:15:21,244 - INFO - [raw sql] ()
+2024-10-22 09:15:21,245 - INFO - show standard_conforming_strings
+2024-10-22 09:15:21,245 - INFO - [raw sql] ()
+2024-10-22 09:15:21,247 - INFO - BEGIN (implicit)
+2024-10-22 09:15:21,247 - INFO - 
+                CREATE TABLE IF NOT EXISTS products (
+                    id SERIAL PRIMARY KEY,
+                    product_id VARCHAR(50) NOT NULL UNIQUE,
+                    name VARCHAR(100),
+                    quantity INTEGER NOT NULL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                );
+                
+2024-10-22 09:15:21,247 - INFO - [generated in 0.00023s] ()
+2024-10-22 09:15:21,249 - INFO - 
+                CREATE TABLE IF NOT EXISTS reservations (
+                    id SERIAL PRIMARY KEY,
+                    reservation_id VARCHAR(50) NOT NULL UNIQUE,
+                    product_id VARCHAR(50) NOT NULL REFERENCES products(product_id),
+                    quantity INTEGER NOT NULL,
+                    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    status VARCHAR(20) DEFAULT 'pending'
+                );
+                
+2024-10-22 09:15:21,249 - INFO - [generated in 0.00019s] ()
+2024-10-22 09:15:21,250 - INFO - Таблицы 'products','reservations' успешно созданы или уже существуют.
+2024-10-22 09:15:21,250 - INFO - COMMIT
+2024-10-22 09:15:21,290 - INFO - select pg_catalog.version()
+2024-10-22 09:15:21,290 - INFO - [raw sql] ()
+2024-10-22 09:15:21,291 - INFO - select current_schema()
+2024-10-22 09:15:21,291 - INFO - [raw sql] ()
+2024-10-22 09:15:21,292 - INFO - show standard_conforming_strings
+2024-10-22 09:15:21,293 - INFO - [raw sql] ()
+2024-10-22 09:15:21,294 - INFO - BEGIN (implicit)
+2024-10-22 09:15:21,295 - INFO - 
+            INSERT INTO products (product_id, name, quantity)
+            VALUES ($1, $2, $3)
+            ON CONFLICT (product_id) DO UPDATE 
+            SET name = EXCLUDED.name,
+                quantity = EXCLUDED.quantity;
+        
+2024-10-22 09:15:21,295 - INFO - [generated in 0.00039s] ('P001', 'Продукт 1', 100)
+2024-10-22 09:15:21,305 - INFO - Продукт 'Продукт 1' c id 'P001' успешно добавлен.
+2024-10-22 09:15:21,305 - INFO - COMMIT
+2024-10-22 09:15:21,310 - INFO - BEGIN (implicit)
+2024-10-22 09:15:21,311 - INFO - 
+            INSERT INTO products (product_id, name, quantity)
+            VALUES ($1, $2, $3)
+            ON CONFLICT (product_id) DO UPDATE 
+            SET name = EXCLUDED.name,
+                quantity = EXCLUDED.quantity;
+        
+2024-10-22 09:15:21,311 - INFO - [cached since 0.01569s ago] ('P002', 'Продукт 2', 150)
+2024-10-22 09:15:21,312 - INFO - Продукт 'Продукт 2' c id 'P002' успешно добавлен.
+2024-10-22 09:15:21,312 - INFO - COMMIT
+2024-10-22 09:17:14,863 - INFO - select pg_catalog.version()
+2024-10-22 09:17:14,864 - INFO - [raw sql] ()
+2024-10-22 09:17:14,867 - INFO - select current_schema()
+2024-10-22 09:17:14,867 - INFO - [raw sql] ()
+2024-10-22 09:17:14,869 - INFO - show standard_conforming_strings
+2024-10-22 09:17:14,869 - INFO - [raw sql] ()
+2024-10-22 09:17:14,870 - INFO - BEGIN (implicit)
+2024-10-22 09:17:14,871 - INFO - SELECT 1 FROM pg_database WHERE datname='reservation_service'
+2024-10-22 09:17:14,871 - INFO - [generated in 0.00023s] ()
+2024-10-22 09:17:14,873 - INFO - COMMIT
+2024-10-22 09:17:14,912 - INFO - select pg_catalog.version()
+2024-10-22 09:17:14,912 - INFO - [raw sql] ()
+2024-10-22 09:17:14,913 - INFO - select current_schema()
+2024-10-22 09:17:14,914 - INFO - [raw sql] ()
+2024-10-22 09:17:14,915 - INFO - show standard_conforming_strings
+2024-10-22 09:17:14,915 - INFO - [raw sql] ()
+2024-10-22 09:17:14,916 - INFO - BEGIN (implicit)
+2024-10-22 09:17:14,916 - INFO - 
+                CREATE TABLE IF NOT EXISTS products (
+                    id SERIAL PRIMARY KEY,
+                    product_id VARCHAR(50) NOT NULL UNIQUE,
+                    name VARCHAR(100),
+                    quantity INTEGER NOT NULL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                );
+                
+2024-10-22 09:17:14,916 - INFO - [generated in 0.00019s] ()
+2024-10-22 09:17:14,917 - INFO - 
+                CREATE TABLE IF NOT EXISTS reservations (
+                    id SERIAL PRIMARY KEY,
+                    reservation_id VARCHAR(50) NOT NULL UNIQUE,
+                    product_id VARCHAR(50) NOT NULL REFERENCES products(product_id),
+                    quantity INTEGER NOT NULL,
+                    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    status VARCHAR(20) DEFAULT 'pending'
+                );
+                
+2024-10-22 09:17:14,918 - INFO - [generated in 0.00020s] ()
+2024-10-22 09:17:14,918 - INFO - Таблицы 'products','reservations' успешно созданы или уже существуют.
+2024-10-22 09:17:14,919 - INFO - COMMIT
+2024-10-22 09:17:14,959 - INFO - select pg_catalog.version()
+2024-10-22 09:17:14,959 - INFO - [raw sql] ()
+2024-10-22 09:17:14,961 - INFO - select current_schema()
+2024-10-22 09:17:14,961 - INFO - [raw sql] ()
+2024-10-22 09:17:14,962 - INFO - show standard_conforming_strings
+2024-10-22 09:17:14,962 - INFO - [raw sql] ()
+2024-10-22 09:17:14,963 - INFO - BEGIN (implicit)
+2024-10-22 09:17:14,964 - INFO - 
+            INSERT INTO products (product_id, name, quantity)
+            VALUES ($1, $2, $3)
+            ON CONFLICT (product_id) DO UPDATE 
+            SET name = EXCLUDED.name,
+                quantity = EXCLUDED.quantity;
+        
+2024-10-22 09:17:14,964 - INFO - [generated in 0.00023s] ('P001', 'Продукт 1', 100)
+2024-10-22 09:17:14,966 - INFO - Продукт 'Продукт 1' c id 'P001' успешно добавлен.
+2024-10-22 09:17:14,966 - INFO - COMMIT
+2024-10-22 09:17:14,970 - INFO - BEGIN (implicit)
+2024-10-22 09:17:14,971 - INFO - 
+            INSERT INTO products (product_id, name, quantity)
+            VALUES ($1, $2, $3)
+            ON CONFLICT (product_id) DO UPDATE 
+            SET name = EXCLUDED.name,
+                quantity = EXCLUDED.quantity;
+        
+2024-10-22 09:17:14,971 - INFO - [cached since 0.007082s ago] ('P002', 'Продукт 2', 150)
+2024-10-22 09:17:14,972 - INFO - Продукт 'Продукт 2' c id 'P002' успешно добавлен.
+2024-10-22 09:17:14,972 - INFO - COMMIT
+2024-10-22 09:17:32,808 - INFO - select pg_catalog.version()
+2024-10-22 09:17:32,808 - INFO - [raw sql] ()
+2024-10-22 09:17:32,812 - INFO - select current_schema()
+2024-10-22 09:17:32,812 - INFO - [raw sql] ()
+2024-10-22 09:17:32,813 - INFO - show standard_conforming_strings
+2024-10-22 09:17:32,813 - INFO - [raw sql] ()
+2024-10-22 09:17:32,815 - INFO - BEGIN (implicit)
+2024-10-22 09:17:32,815 - INFO - SELECT 1 FROM pg_database WHERE datname='reservation_service'
+2024-10-22 09:17:32,815 - INFO - [generated in 0.00023s] ()
+2024-10-22 09:17:32,817 - INFO - COMMIT
+2024-10-22 09:17:32,855 - INFO - select pg_catalog.version()
+2024-10-22 09:17:32,855 - INFO - [raw sql] ()
+2024-10-22 09:17:32,856 - INFO - select current_schema()
+2024-10-22 09:17:32,856 - INFO - [raw sql] ()
+2024-10-22 09:17:32,858 - INFO - show standard_conforming_strings
+2024-10-22 09:17:32,858 - INFO - [raw sql] ()
+2024-10-22 09:17:32,859 - INFO - BEGIN (implicit)
+2024-10-22 09:17:32,859 - INFO - 
+                CREATE TABLE IF NOT EXISTS products (
+                    id SERIAL PRIMARY KEY,
+                    product_id VARCHAR(50) NOT NULL UNIQUE,
+                    name VARCHAR(100),
+                    quantity INTEGER NOT NULL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                );
+                
+2024-10-22 09:17:32,859 - INFO - [generated in 0.00020s] ()
+2024-10-22 09:17:32,860 - INFO - 
+                CREATE TABLE IF NOT EXISTS reservations (
+                    id SERIAL PRIMARY KEY,
+                    reservation_id VARCHAR(50) NOT NULL UNIQUE,
+                    product_id VARCHAR(50) NOT NULL REFERENCES products(product_id),
+                    quantity INTEGER NOT NULL,
+                    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    status VARCHAR(20) DEFAULT 'pending'
+                );
+                
+2024-10-22 09:17:32,860 - INFO - [generated in 0.00018s] ()
+2024-10-22 09:17:32,861 - INFO - Таблицы 'products','reservations' успешно созданы или уже существуют.
+2024-10-22 09:17:32,861 - INFO - COMMIT
+2024-10-22 09:17:32,899 - INFO - select pg_catalog.version()
+2024-10-22 09:17:32,899 - INFO - [raw sql] ()
+2024-10-22 09:17:32,901 - INFO - select current_schema()
+2024-10-22 09:17:32,901 - INFO - [raw sql] ()
+2024-10-22 09:17:32,902 - INFO - show standard_conforming_strings
+2024-10-22 09:17:32,902 - INFO - [raw sql] ()
+2024-10-22 09:17:32,903 - INFO - BEGIN (implicit)
+2024-10-22 09:17:32,904 - INFO - 
+            INSERT INTO products (product_id, name, quantity)
+            VALUES ($1, $2, $3)
+            ON CONFLICT (product_id) DO UPDATE 
+            SET name = EXCLUDED.name,
+                quantity = EXCLUDED.quantity;
+        
+2024-10-22 09:17:32,904 - INFO - [generated in 0.00026s] ('P001', 'Продукт 1', 100)
+2024-10-22 09:17:32,906 - INFO - Продукт 'Продукт 1' c id 'P001' успешно добавлен.
+2024-10-22 09:17:32,906 - INFO - COMMIT
+2024-10-22 09:17:32,912 - INFO - BEGIN (implicit)
+2024-10-22 09:17:32,912 - INFO - 
+            INSERT INTO products (product_id, name, quantity)
+            VALUES ($1, $2, $3)
+            ON CONFLICT (product_id) DO UPDATE 
+            SET name = EXCLUDED.name,
+                quantity = EXCLUDED.quantity;
+        
+2024-10-22 09:17:32,912 - INFO - [cached since 0.008834s ago] ('P002', 'Продукт 2', 150)
+2024-10-22 09:17:32,913 - INFO - Продукт 'Продукт 2' c id 'P002' успешно добавлен.
+2024-10-22 09:17:32,913 - INFO - COMMIT
+2024-10-22 09:18:33,478 - INFO - select pg_catalog.version()
+2024-10-22 09:18:33,479 - INFO - [raw sql] ()
+2024-10-22 09:18:33,481 - INFO - select current_schema()
+2024-10-22 09:18:33,481 - INFO - [raw sql] ()
+2024-10-22 09:18:33,482 - INFO - show standard_conforming_strings
+2024-10-22 09:18:33,482 - INFO - [raw sql] ()
+2024-10-22 09:18:33,483 - INFO - BEGIN (implicit)
+2024-10-22 09:18:33,488 - INFO - SELECT products.id, products.product_id, products.name, products.quantity, products.created_at, products.updated_at 
+FROM products 
+WHERE products.product_id = $1::VARCHAR
+2024-10-22 09:18:33,488 - INFO - [generated in 0.00031s] ('P001',)
+2024-10-22 09:18:33,500 - INFO - UPDATE products SET quantity=$1::INTEGER, updated_at=now() WHERE products.product_id = $2::VARCHAR
+2024-10-22 09:18:33,500 - INFO - [generated in 0.00026s] (99, 'P001')
+2024-10-22 09:18:33,502 - INFO - Резервация '4325325' успешно добавлена.
+2024-10-22 09:18:33,505 - INFO - INSERT INTO reservations (reservation_id, product_id, quantity, timestamp, status) VALUES ($1::VARCHAR, $2::VARCHAR, $3::INTEGER, $4::TIMESTAMP WITH TIME ZONE, $5::VARCHAR) RETURNING reservations.id
+2024-10-22 09:18:33,505 - INFO - [generated in 0.00029s] ('4325325', 'P001', 1, datetime.datetime(2024, 10, 22, 9, 18, 33, 502548), 'success')
+2024-10-22 09:18:33,512 - INFO - COMMIT
+2024-10-22 09:22:12,111 - INFO - select pg_catalog.version()
+2024-10-22 09:22:12,112 - INFO - [raw sql] ()
+2024-10-22 09:22:12,115 - INFO - select current_schema()
+2024-10-22 09:22:12,116 - INFO - [raw sql] ()
+2024-10-22 09:22:12,117 - INFO - show standard_conforming_strings
+2024-10-22 09:22:12,117 - INFO - [raw sql] ()
+2024-10-22 09:22:12,119 - INFO - BEGIN (implicit)
+2024-10-22 09:22:12,119 - INFO - SELECT 1 FROM pg_database WHERE datname='reservation_service'
+2024-10-22 09:22:12,119 - INFO - [generated in 0.00022s] ()
+2024-10-22 09:22:12,121 - INFO - COMMIT
+2024-10-22 09:22:12,159 - INFO - select pg_catalog.version()
+2024-10-22 09:22:12,159 - INFO - [raw sql] ()
+2024-10-22 09:22:12,161 - INFO - select current_schema()
+2024-10-22 09:22:12,161 - INFO - [raw sql] ()
+2024-10-22 09:22:12,162 - INFO - show standard_conforming_strings
+2024-10-22 09:22:12,162 - INFO - [raw sql] ()
+2024-10-22 09:22:12,163 - INFO - BEGIN (implicit)
+2024-10-22 09:22:12,164 - INFO - 
+                CREATE TABLE IF NOT EXISTS products (
+                    id SERIAL PRIMARY KEY,
+                    product_id VARCHAR(50) NOT NULL UNIQUE,
+                    name VARCHAR(100),
+                    quantity INTEGER NOT NULL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                );
+                
+2024-10-22 09:22:12,164 - INFO - [generated in 0.00022s] ()
+2024-10-22 09:22:12,190 - INFO - 
+                CREATE TABLE IF NOT EXISTS reservations (
+                    id SERIAL PRIMARY KEY,
+                    reservation_id VARCHAR(50) NOT NULL UNIQUE,
+                    product_id VARCHAR(50) NOT NULL REFERENCES products(product_id),
+                    quantity INTEGER NOT NULL,
+                    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    status VARCHAR(20) DEFAULT 'pending'
+                );
+                
+2024-10-22 09:22:12,190 - INFO - [generated in 0.00032s] ()
+2024-10-22 09:22:12,208 - INFO - Таблицы 'products','reservations' успешно созданы или уже существуют.
+2024-10-22 09:22:12,208 - INFO - COMMIT
+2024-10-22 09:22:12,251 - INFO - select pg_catalog.version()
+2024-10-22 09:22:12,251 - INFO - [raw sql] ()
+2024-10-22 09:22:12,253 - INFO - select current_schema()
+2024-10-22 09:22:12,253 - INFO - [raw sql] ()
+2024-10-22 09:22:12,254 - INFO - show standard_conforming_strings
+2024-10-22 09:22:12,254 - INFO - [raw sql] ()
+2024-10-22 09:22:12,255 - INFO - BEGIN (implicit)
+2024-10-22 09:22:12,255 - INFO - 
+            INSERT INTO products (product_id, name, quantity)
+            VALUES ($1, $2, $3)
+            ON CONFLICT (product_id) DO UPDATE 
+            SET name = EXCLUDED.name,
+                quantity = EXCLUDED.quantity;
+        
+2024-10-22 09:22:12,255 - INFO - [generated in 0.00022s] ('P001', 'Продукт 1', 100)
+2024-10-22 09:22:12,258 - INFO - Продукт 'Продукт 1' c id 'P001' успешно добавлен.
+2024-10-22 09:22:12,258 - INFO - COMMIT
+2024-10-22 09:22:12,262 - INFO - BEGIN (implicit)
+2024-10-22 09:22:12,262 - INFO - 
+            INSERT INTO products (product_id, name, quantity)
+            VALUES ($1, $2, $3)
+            ON CONFLICT (product_id) DO UPDATE 
+            SET name = EXCLUDED.name,
+                quantity = EXCLUDED.quantity;
+        
+2024-10-22 09:22:12,262 - INFO - [cached since 0.006841s ago] ('P002', 'Продукт 2', 150)
+2024-10-22 09:22:12,263 - INFO - Продукт 'Продукт 2' c id 'P002' успешно добавлен.
+2024-10-22 09:22:12,263 - INFO - COMMIT
+2024-10-22 09:36:38,654 - ERROR - Task exception was never retrieved
+future: <Task finished name='Task-1' coro=<main() done, defined at /home/belyankinaer/work/reservation_service/app/main.py:14> exception=KeyboardInterrupt()>
+Traceback (most recent call last):
+  File "/home/belyankinaer/pycharm-2024.1.4/plugins/python/helpers/pydev/pydevd.py", line 2252, in <module>
+    main()
+  File "/home/belyankinaer/work/reservation_service/app/main.py", line 21, in <module>
+    asyncio.run(main())  # Run the main async function
+    ^^^^^^^^^^^^^^^^^^^
+  File "/home/belyankinaer/pycharm-2024.1.4/plugins/python/helpers-pro/pydevd_asyncio/pydevd_nest_asyncio.py", line 138, in run
+    return loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/belyankinaer/pycharm-2024.1.4/plugins/python/helpers-pro/pydevd_asyncio/pydevd_nest_asyncio.py", line 234, in run_until_complete
+    self._run_once()
+  File "/home/belyankinaer/pycharm-2024.1.4/plugins/python/helpers-pro/pydevd_asyncio/pydevd_nest_asyncio.py", line 286, in _run_once
+    handle._run()
+  File "/usr/lib/python3.11/asyncio/events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+  File "/home/belyankinaer/pycharm-2024.1.4/plugins/python/helpers-pro/pydevd_asyncio/pydevd_nest_asyncio.py", line 395, in step
+    step_orig(task, exc)
+  File "/usr/lib/python3.11/asyncio/tasks.py", line 267, in __step
+    result = coro.send(None)
+             ^^^^^^^^^^^^^^^
+  File "/home/belyankinaer/work/reservation_service/app/main.py", line 15, in main
+    asyncio.run(db_manager.create_database())
+    ^^^^^^^
+  File "/home/belyankinaer/work/reservation_service/app/main.py", line 15, in main
+    asyncio.run(db_manager.create_database())
+    ^^^^^^^
+  File "_pydevd_bundle\\pydevd_cython.pyx", line 1187, in _pydevd_bundle.pydevd_cython.SafeCallWrapper.__call__
+  File "_pydevd_bundle\\pydevd_cython.pyx", line 627, in _pydevd_bundle.pydevd_cython.PyDBFrame.trace_dispatch
+  File "_pydevd_bundle\\pydevd_cython.pyx", line 937, in _pydevd_bundle.pydevd_cython.PyDBFrame.trace_dispatch
+  File "_pydevd_bundle\\pydevd_cython.pyx", line 928, in _pydevd_bundle.pydevd_cython.PyDBFrame.trace_dispatch
+  File "_pydevd_bundle\\pydevd_cython.pyx", line 585, in _pydevd_bundle.pydevd_cython.PyDBFrame.do_wait_suspend
+  File "/home/belyankinaer/pycharm-2024.1.4/plugins/python/helpers/pydev/pydevd.py", line 1201, in do_wait_suspend
+    self._do_wait_suspend(thread, frame, event, arg, suspend_type, from_this_thread)
+  File "/home/belyankinaer/pycharm-2024.1.4/plugins/python/helpers/pydev/pydevd.py", line 1216, in _do_wait_suspend
+    time.sleep(0.01)
+KeyboardInterrupt
+2024-10-22 09:37:39,802 - INFO - select pg_catalog.version()
+2024-10-22 09:37:39,802 - INFO - [raw sql] ()
+2024-10-22 09:37:39,807 - INFO - select current_schema()
+2024-10-22 09:37:39,807 - INFO - [raw sql] ()
+2024-10-22 09:37:39,808 - INFO - show standard_conforming_strings
+2024-10-22 09:37:39,808 - INFO - [raw sql] ()
+2024-10-22 09:37:39,810 - INFO - BEGIN (implicit)
+2024-10-22 09:37:39,811 - INFO - SELECT 1 FROM pg_database WHERE datname='reservation_service'
+2024-10-22 09:37:39,811 - INFO - [generated in 0.00028s] ()
+2024-10-22 09:37:44,331 - INFO - COMMIT
+2024-10-22 09:37:46,015 - INFO - select pg_catalog.version()
+2024-10-22 09:37:46,015 - INFO - [raw sql] ()
+2024-10-22 09:37:46,017 - INFO - select current_schema()
+2024-10-22 09:37:46,017 - INFO - [raw sql] ()
+2024-10-22 09:37:46,019 - INFO - show standard_conforming_strings
+2024-10-22 09:37:46,020 - INFO - [raw sql] ()
+2024-10-22 09:37:46,021 - INFO - BEGIN (implicit)
+2024-10-22 09:37:46,021 - INFO - 
+                CREATE TABLE IF NOT EXISTS products (
+                    id SERIAL PRIMARY KEY,
+                    product_id VARCHAR(50) NOT NULL UNIQUE,
+                    name VARCHAR(100),
+                    quantity INTEGER NOT NULL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                );
+                
+2024-10-22 09:37:46,021 - INFO - [generated in 0.00022s] ()
+2024-10-22 09:37:46,051 - INFO - 
+                CREATE TABLE IF NOT EXISTS reservations (
+                    id SERIAL PRIMARY KEY,
+                    reservation_id VARCHAR(50) NOT NULL UNIQUE,
+                    product_id VARCHAR(50) NOT NULL REFERENCES products(product_id),
+                    quantity INTEGER NOT NULL,
+                    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    status VARCHAR(20) DEFAULT 'pending'
+                );
+                
+2024-10-22 09:37:46,051 - INFO - [generated in 0.00031s] ()
+2024-10-22 09:37:46,069 - INFO - Таблицы 'products','reservations' успешно созданы или уже существуют.
+2024-10-22 09:37:46,070 - INFO - COMMIT
+2024-10-22 09:37:46,113 - INFO - select pg_catalog.version()
+2024-10-22 09:37:46,113 - INFO - [raw sql] ()
+2024-10-22 09:37:46,114 - INFO - select current_schema()
+2024-10-22 09:37:46,115 - INFO - [raw sql] ()
+2024-10-22 09:37:46,116 - INFO - show standard_conforming_strings
+2024-10-22 09:37:46,116 - INFO - [raw sql] ()
+2024-10-22 09:37:46,117 - INFO - BEGIN (implicit)
+2024-10-22 09:37:46,117 - INFO - 
+            INSERT INTO products (product_id, name, quantity)
+            VALUES ($1, $2, $3)
+            ON CONFLICT (product_id) DO UPDATE 
+            SET name = EXCLUDED.name,
+                quantity = EXCLUDED.quantity;
+        
+2024-10-22 09:37:46,117 - INFO - [generated in 0.00021s] ('P001', 'Продукт 1', 100)
+2024-10-22 09:37:46,120 - INFO - Продукт 'Продукт 1' c id 'P001' успешно добавлен.
+2024-10-22 09:37:46,120 - INFO - COMMIT
+2024-10-22 09:37:46,124 - INFO - BEGIN (implicit)
+2024-10-22 09:37:46,124 - INFO - 
+            INSERT INTO products (product_id, name, quantity)
+            VALUES ($1, $2, $3)
+            ON CONFLICT (product_id) DO UPDATE 
+            SET name = EXCLUDED.name,
+                quantity = EXCLUDED.quantity;
+        
+2024-10-22 09:37:46,124 - INFO - [cached since 0.007345s ago] ('P002', 'Продукт 2', 150)
+2024-10-22 09:37:46,125 - INFO - Продукт 'Продукт 2' c id 'P002' успешно добавлен.
+2024-10-22 09:37:46,125 - INFO - COMMIT
+2024-10-22 09:40:11,247 - INFO - select pg_catalog.version()
+2024-10-22 09:40:11,248 - INFO - [raw sql] ()
+2024-10-22 09:40:11,252 - INFO - select current_schema()
+2024-10-22 09:40:11,252 - INFO - [raw sql] ()
+2024-10-22 09:40:11,254 - INFO - show standard_conforming_strings
+2024-10-22 09:40:11,254 - INFO - [raw sql] ()
+2024-10-22 09:40:11,256 - INFO - BEGIN (implicit)
+2024-10-22 09:40:11,257 - INFO - SELECT 1 FROM pg_database WHERE datname='reservation_service'
+2024-10-22 09:40:11,257 - INFO - [generated in 0.00028s] ()
+2024-10-22 09:40:11,259 - INFO - CREATE DATABASE reservation_service;
+2024-10-22 09:40:11,259 - INFO - [generated in 0.00025s] ()
+2024-10-22 09:40:11,260 - INFO - ROLLBACK
+2024-10-22 09:41:08,536 - INFO - select pg_catalog.version()
+2024-10-22 09:41:08,536 - INFO - [raw sql] ()
+2024-10-22 09:41:08,540 - INFO - select current_schema()
+2024-10-22 09:41:08,540 - INFO - [raw sql] ()
+2024-10-22 09:41:08,542 - INFO - show standard_conforming_strings
+2024-10-22 09:41:08,542 - INFO - [raw sql] ()
+2024-10-22 09:41:08,544 - INFO - BEGIN (implicit; DBAPI should not BEGIN due to autocommit mode)
+2024-10-22 09:41:08,544 - INFO - SELECT 1 FROM pg_database WHERE datname='reservation_service'
+2024-10-22 09:41:08,544 - INFO - [generated in 0.00044s] ()
+2024-10-22 09:41:08,545 - INFO - CREATE DATABASE reservation_service;
+2024-10-22 09:41:08,545 - INFO - [generated in 0.00019s] ()
+2024-10-22 09:41:12,684 - INFO - ROLLBACK using DBAPI connection.rollback(), DBAPI should ignore due to autocommit mode
+2024-10-22 09:41:12,733 - INFO - select pg_catalog.version()
+2024-10-22 09:41:12,733 - INFO - [raw sql] ()
+2024-10-22 09:41:12,734 - INFO - select current_schema()
+2024-10-22 09:41:12,734 - INFO - [raw sql] ()
+2024-10-22 09:41:12,736 - INFO - show standard_conforming_strings
+2024-10-22 09:41:12,736 - INFO - [raw sql] ()
+2024-10-22 09:41:12,737 - INFO - BEGIN (implicit)
+2024-10-22 09:41:12,737 - INFO - 
+                CREATE TABLE IF NOT EXISTS products (
+                    id SERIAL PRIMARY KEY,
+                    product_id VARCHAR(50) NOT NULL UNIQUE,
+                    name VARCHAR(100),
+                    quantity INTEGER NOT NULL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                );
+                
+2024-10-22 09:41:12,737 - INFO - [generated in 0.00020s] ()
+2024-10-22 09:41:12,758 - INFO - 
+                CREATE TABLE IF NOT EXISTS reservations (
+                    id SERIAL PRIMARY KEY,
+                    reservation_id VARCHAR(50) NOT NULL UNIQUE,
+                    product_id VARCHAR(50) NOT NULL REFERENCES products(product_id),
+                    quantity INTEGER NOT NULL,
+                    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    status VARCHAR(20) DEFAULT 'pending'
+                );
+                
+2024-10-22 09:41:12,758 - INFO - [generated in 0.00029s] ()
+2024-10-22 09:41:12,776 - INFO - Таблицы 'products','reservations' успешно созданы или уже существуют.
+2024-10-22 09:41:12,777 - INFO - COMMIT
+2024-10-22 09:41:12,821 - INFO - select pg_catalog.version()
+2024-10-22 09:41:12,821 - INFO - [raw sql] ()
+2024-10-22 09:41:12,822 - INFO - select current_schema()
+2024-10-22 09:41:12,823 - INFO - [raw sql] ()
+2024-10-22 09:41:12,824 - INFO - show standard_conforming_strings
+2024-10-22 09:41:12,824 - INFO - [raw sql] ()
+2024-10-22 09:41:12,825 - INFO - BEGIN (implicit)
+2024-10-22 09:41:12,825 - INFO - 
+            INSERT INTO products (product_id, name, quantity)
+            VALUES ($1, $2, $3)
+            ON CONFLICT (product_id) DO UPDATE 
+            SET name = EXCLUDED.name,
+                quantity = EXCLUDED.quantity;
+        
+2024-10-22 09:41:12,825 - INFO - [generated in 0.00023s] ('P001', 'Продукт 1', 100)
+2024-10-22 09:41:12,827 - INFO - Продукт 'Продукт 1' c id 'P001' успешно добавлен.
+2024-10-22 09:41:12,828 - INFO - COMMIT
+2024-10-22 09:41:12,832 - INFO - BEGIN (implicit)
+2024-10-22 09:41:12,832 - INFO - 
+            INSERT INTO products (product_id, name, quantity)
+            VALUES ($1, $2, $3)
+            ON CONFLICT (product_id) DO UPDATE 
+            SET name = EXCLUDED.name,
+                quantity = EXCLUDED.quantity;
+        
+2024-10-22 09:41:12,832 - INFO - [cached since 0.006833s ago] ('P002', 'Продукт 2', 150)
+2024-10-22 09:41:12,833 - INFO - Продукт 'Продукт 2' c id 'P002' успешно добавлен.
+2024-10-22 09:41:12,833 - INFO - COMMIT
+2024-10-22 09:41:39,637 - INFO - select pg_catalog.version()
+2024-10-22 09:41:39,637 - INFO - [raw sql] ()
+2024-10-22 09:41:39,641 - INFO - select current_schema()
+2024-10-22 09:41:39,641 - INFO - [raw sql] ()
+2024-10-22 09:41:39,642 - INFO - show standard_conforming_strings
+2024-10-22 09:41:39,642 - INFO - [raw sql] ()
+2024-10-22 09:41:39,644 - INFO - BEGIN (implicit; DBAPI should not BEGIN due to autocommit mode)
+2024-10-22 09:41:39,645 - INFO - SELECT 1 FROM pg_database WHERE datname='reservation_service'
+2024-10-22 09:41:39,645 - INFO - [generated in 0.00037s] ()
+2024-10-22 09:41:39,646 - INFO - ROLLBACK using DBAPI connection.rollback(), DBAPI should ignore due to autocommit mode
+2024-10-22 09:41:39,684 - INFO - select pg_catalog.version()
+2024-10-22 09:41:39,684 - INFO - [raw sql] ()
+2024-10-22 09:41:39,685 - INFO - select current_schema()
+2024-10-22 09:41:39,686 - INFO - [raw sql] ()
+2024-10-22 09:41:39,687 - INFO - show standard_conforming_strings
+2024-10-22 09:41:39,687 - INFO - [raw sql] ()
+2024-10-22 09:41:39,688 - INFO - BEGIN (implicit)
+2024-10-22 09:41:39,688 - INFO - 
+                CREATE TABLE IF NOT EXISTS products (
+                    id SERIAL PRIMARY KEY,
+                    product_id VARCHAR(50) NOT NULL UNIQUE,
+                    name VARCHAR(100),
+                    quantity INTEGER NOT NULL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                );
+                
+2024-10-22 09:41:39,688 - INFO - [generated in 0.00018s] ()
+2024-10-22 09:41:39,689 - INFO - 
+                CREATE TABLE IF NOT EXISTS reservations (
+                    id SERIAL PRIMARY KEY,
+                    reservation_id VARCHAR(50) NOT NULL UNIQUE,
+                    product_id VARCHAR(50) NOT NULL REFERENCES products(product_id),
+                    quantity INTEGER NOT NULL,
+                    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    status VARCHAR(20) DEFAULT 'pending'
+                );
+                
+2024-10-22 09:41:39,689 - INFO - [generated in 0.00019s] ()
+2024-10-22 09:41:39,690 - INFO - Таблицы 'products','reservations' успешно созданы или уже существуют.
+2024-10-22 09:41:39,690 - INFO - COMMIT
+2024-10-22 09:41:39,728 - INFO - select pg_catalog.version()
+2024-10-22 09:41:39,728 - INFO - [raw sql] ()
+2024-10-22 09:41:39,729 - INFO - select current_schema()
+2024-10-22 09:41:39,729 - INFO - [raw sql] ()
+2024-10-22 09:41:39,730 - INFO - show standard_conforming_strings
+2024-10-22 09:41:39,731 - INFO - [raw sql] ()
+2024-10-22 09:41:39,732 - INFO - BEGIN (implicit)
+2024-10-22 09:41:39,732 - INFO - 
+            INSERT INTO products (product_id, name, quantity)
+            VALUES ($1, $2, $3)
+            ON CONFLICT (product_id) DO UPDATE 
+            SET name = EXCLUDED.name,
+                quantity = EXCLUDED.quantity;
+        
+2024-10-22 09:41:39,732 - INFO - [generated in 0.00022s] ('P001', 'Продукт 1', 100)
+2024-10-22 09:41:39,734 - INFO - Продукт 'Продукт 1' c id 'P001' успешно добавлен.
+2024-10-22 09:41:39,734 - INFO - COMMIT
+2024-10-22 09:41:39,740 - INFO - BEGIN (implicit)
+2024-10-22 09:41:39,741 - INFO - 
+            INSERT INTO products (product_id, name, quantity)
+            VALUES ($1, $2, $3)
+            ON CONFLICT (product_id) DO UPDATE 
+            SET name = EXCLUDED.name,
+                quantity = EXCLUDED.quantity;
+        
+2024-10-22 09:41:39,741 - INFO - [cached since 0.008716s ago] ('P002', 'Продукт 2', 150)
+2024-10-22 09:41:39,741 - INFO - Продукт 'Продукт 2' c id 'P002' успешно добавлен.
+2024-10-22 09:41:39,742 - INFO - COMMIT

@@ -13,5 +13,5 @@ DB_PASS = "admin"
 DB_USER = "postgres"
 
 DATABASE_URL = f"postgresql+asyncpg://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-DATABASE_URL_2 = f"postgresql+asyncpg://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}"
+URL_POSTGRES = f"postgresql+asyncpg://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}"
 #DATABASE_URL = "postgresql://postgres:admin@localhost:5433/postgres" # правильные настройки

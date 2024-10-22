@@ -11,7 +11,7 @@ from sqlalchemy.ext.asyncio import async_sessionmaker
 from sqlalchemy import select, update, func, text
 from fastapi import HTTPException
 
-from app.constants import DATABASE_URL, DATABASE_URL_2
+from app.constants import DATABASE_URL, DATABASE_URL_2, URL_POSTGRES
 from app.models import Product, Reservation, Base
 from app.utils import async_session_decorator
 
@@ -37,7 +37,7 @@ class DatabaseManager:
             db.close()
 
     async def create_database(self):
-        engine = create_async_engine(DATABASE_URL_2, echo=True)
+        engine = create_async_engine(URL_POSTGRES, echo=True)
         async with engine.connect() as conn:
             await conn.execution_options(isolation_level="AUTOCOMMIT")
             result = await conn.execute(text("SELECT 1 FROM pg_database WHERE datname='reservation_service'"))
