@@ -11,7 +11,7 @@ from sqlalchemy.ext.asyncio import async_sessionmaker
 from sqlalchemy import select, update, func, text
 from fastapi import HTTPException
 
-from app.constants import DATABASE_URL
+from app.constants import DATABASE_URL, DATABASE_URL_2
 from app.models import Product, Reservation, Base
 from app.utils import async_session_decorator
 
@@ -36,16 +36,16 @@ class DatabaseManager:
         finally:
             db.close()
 
-
-
-    @async_session_decorator()
-    async def create_database(self, session):  # Updated method signature
-        result = await session.execute(text("SELECT 1 FROM pg_database WHERE datname='reservation_service'"))
-        if not result.fetchone():
-            await session.execute(text("CREATE DATABASE reservation_service;"))
-            print("Database 'reservation_service' created successfully.")
-        else:
-            print("Database 'reservation_service' already exists.")
+    async def create_database(self):
+        engine = create_async_engine(DATABASE_URL_2, echo=True)
+        async with engine.connect() as conn:
+            await conn.execution_options(isolation_level="AUTOCOMMIT")
+            result = await conn.execute(text("SELECT 1 FROM pg_database WHERE datname='reservation_service'"))
+            if not result.fetchone():
+                await conn.execute(text("CREATE DATABASE reservation_service;"))
+                print("Database 'reservation_service' created successfully.")
+            else:
+                print("Database 'reservation_service' already exists.")
 
     @async_session_decorator()
     async def create_tables(self, session):  # Updated method signature
