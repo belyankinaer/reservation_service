@@ -104,10 +104,11 @@ class BLManager:
         try:
             session.add(new_reservation)
             self.logger.info(f"Резервация '{reservation_id}' успешно добавлена.")
-            return {"status": "success", "message": "Reservation completed successfully.",
+            return {"status": "success", "message": "Резервация успешно добавлена.",
                     "reservation_id": reservation_id}
         except SQLAlchemyError as e:
             self.logger.info(f"Ошибка при добавлении резервации: {e}")
+            raise SQLAlchemyError(f"Ошибка при добавлении резервации: {e}")
 
     @async_session_decorator()
     async def get_reservation_status(self, reservation_id: str, session: AsyncSession) -> dict:

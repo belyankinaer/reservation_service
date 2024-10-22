@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 
 @pytest.mark.asyncio
-async def test_update_product_at_stock_no_error():
+async def test_update_product_at_stock_success():
     """Проверка на работу функции update_product_at_stock на успешное обновление товара"""
     bl_manager = BLManager()
     data_product = Product(product_id='123', name='Test Product', quantity=10)

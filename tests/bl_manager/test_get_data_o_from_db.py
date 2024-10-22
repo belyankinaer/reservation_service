@@ -11,8 +11,8 @@ model_mapping = {
 
 
 @pytest.mark.asyncio
-async def test_get_data_o_from_db_product_no_error():
-    """Проверка на работу функции get_data_o_from_db для товара без ошибок"""
+async def test_get_data_o_from_db_product_success():
+    """Проверка успешного выполнения функции get_data_o_from_db для товара"""
     bl_manager = BLManager()
 
     mock_session = AsyncMock(spec=AsyncSession)
@@ -29,8 +29,8 @@ async def test_get_data_o_from_db_product_no_error():
 
 
 @pytest.mark.asyncio
-async def test_get_data_o_from_db_reservation_no_error():
-    """Проверка на работу функции get_data_o_from_db для резервации без ошибок"""
+async def test_get_data_o_from_db_reservation_success():
+    """Проверка успешного выполнения функции get_data_o_from_db для резервации"""
     bl_manager = BLManager()
 
     mock_session = AsyncMock(spec=AsyncSession)

@@ -6,7 +6,7 @@ from app.models import Product
 
 
 @pytest.mark.asyncio
-async def test_check_quantity_product_at_stock_no_error():
+async def test_check_quantity_product_at_stock_success():
     """Проверка на работу функции check_quantity_product_at_stock для достаточного количества товара"""
     bl_manager = BLManager()
 
