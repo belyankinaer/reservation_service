@@ -1,5 +1,4 @@
 import pytest
-from unittest.mock import AsyncMock, MagicMock
 from fastapi import HTTPException
 
 from app.bl_manager import BLManager
