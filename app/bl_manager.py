@@ -23,6 +23,7 @@ class BLManager:
         self.session = AsyncSession()
         self.db_manager = DatabaseManager()
 
+
     @async_session_decorator()
     async def reserve_item(self, reservation_id: str, product_id: str, quantity: int, timestamp: str,
                            session: AsyncSession) -> dict:
@@ -38,6 +39,7 @@ class BLManager:
         await self.update_product_at_stock(data_product=data_product, quantity=quantity, session=session)
         return await self.add_reservation(reservation_id, product_id, quantity, session)
 
+
     async def get_data_o_from_db(self, type_o: str, id_o: str, session) -> object:
         """
         Получает данные из базы данных по типу и айди объекта.
@@ -46,7 +48,9 @@ class BLManager:
         :return: данные об объекте
         """
         try:
-            if type_o == 'Product':
+            if type_o not in model_mapping.keys():
+                raise ValueError(f"Неизвестный тип объекта '{type_o}'")
+            elif type_o == 'Product':
                 result = await session.execute(
                     select(Product).where(Product.product_id == id_o)
                 )
@@ -78,11 +82,14 @@ class BLManager:
         :return: ничего либо ошибку если товара меньше чем нужно
         """
         await self.check_quantity_product_at_stock(data_product=data_product, quantity=quantity)
+        new_quantity = data_product.quantity - quantity
+
         await session.execute(
             update(Product)
             .where(Product.product_id == data_product.product_id)
-            .values(quantity=data_product.quantity - quantity, updated_at=func.now())
+            .values(quantity=new_quantity, updated_at=func.now())
         )
+
 
     async def add_reservation(self, reservation_id: str, product_id: str, quantity: int, session) -> dict:
         """

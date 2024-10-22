@@ -1,25 +1,13 @@
-from sqlalchemy import create_engine, text
-from sqlalchemy.exc import SQLAlchemyError
 import logging
-from sqlalchemy.orm import sessionmaker
+
 from app.logging_config import setup_logging
-from datetime import datetime, timezone
-
 from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_session
-from sqlalchemy.ext.asyncio import async_sessionmaker
-from sqlalchemy import select, update, func, text
-from fastapi import HTTPException
-
-from app.constants import DATABASE_URL, URL_POSTGRES
-from app.models import Product, Reservation, Base
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
+from sqlalchemy import text
+from app.constants import URL_POSTGRES
 from app.utils import async_session_decorator
 
-#engine = create_engine(DATABASE_URL) #правильные настройки
 
-engine = create_engine(DATABASE_URL, isolation_level="AUTOCOMMIT")
-
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 class DatabaseManager:
     """Класс для работы с базой данных."""
 
@@ -28,14 +16,6 @@ class DatabaseManager:
         self.logger = logging.getLogger(__name__)
         self.session = AsyncSession()
 
-    async def get_db(self):
-        """Функция для получения сессии базы данных."""
-        db = SessionLocal()
-        try:
-            yield db
-        finally:
-            db.close()
-
     async def create_database(self):
         engine = create_async_engine(URL_POSTGRES, echo=True)
         async with engine.connect() as conn:
@@ -43,12 +23,12 @@ class DatabaseManager:
             result = await conn.execute(text("SELECT 1 FROM pg_database WHERE datname='reservation_service'"))
             if not result.fetchone():
                 await conn.execute(text("CREATE DATABASE reservation_service;"))
-                print("Database 'reservation_service' created successfully.")
+                self.logger.info("Database 'reservation_service' created successfully.")
             else:
-                print("Database 'reservation_service' already exists.")
+                self.logger.info("Database 'reservation_service' already exists.")
 
     @async_session_decorator()
-    async def create_tables(self, session):  # Updated method signature
+    async def create_tables(self, session):
         """Создание таблиц в базе данных reservation_service."""
        #todo проверить создание продуктов потому что они как будто пересоздаются
 
@@ -82,15 +62,23 @@ class DatabaseManager:
             self.logger.info(f"Ошибка при добавлении таблиц: {e}")
 
     @async_session_decorator()
-    async def add_product(self,product_id: str, name: str, quantity: int, session):
+    async def add_product(self, product_id: str, name: str, quantity: int, session):
         """Добавление нового продукта в таблицу products."""
-        #todo нужно добавить проверку на то есть ли объект в бд и если есть то не обновлять
+        # Проверка на существование продукта
+        existing_product_query = text("""
+            SELECT COUNT(*) FROM products WHERE product_id = :product_id
+        """)
+
+        result = await session.execute(existing_product_query, {"product_id": product_id})
+        count = result.scalar()
+
+        if count > 0:
+            self.logger.info(f"Продукт с id '{product_id}' уже существует.")
+            return
+
         insert_product_query = text("""
             INSERT INTO products (product_id, name, quantity)
-            VALUES (:product_id, :name, :quantity)
-            ON CONFLICT (product_id) DO UPDATE 
-            SET name = EXCLUDED.name,
-                quantity = EXCLUDED.quantity;
+            VALUES (:product_id, :name, :quantity);
         """)
 
         try:
@@ -102,5 +90,3 @@ class DatabaseManager:
             self.logger.info(f"Продукт '{name}' c id '{product_id}' успешно добавлен.")
         except SQLAlchemyError as e:
             self.logger.info(f"Ошибка при добавлении продукта c id '{product_id}': {e}")
-
-

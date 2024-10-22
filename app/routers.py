@@ -1,11 +1,5 @@
-from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
-
+from fastapi import APIRouter
 from .bl_manager import BLManager
-from .db_manager import SessionLocal
-
-from pydantic import BaseModel
-
 from .utils import ReservationRequest, ReservationStatusRequest
 
 router = APIRouter()
