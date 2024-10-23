@@ -1,22 +1,38 @@
-version: '3.8'
+version: '3.11'
 
 services:
-  db:
-    image: postgres:latest
-    environment:
-      POSTGRES_DB: reservation_service
-      POSTGRES_USER: postgres #todo
-      POSTGRES_PASSWORD: admin   #todo
-
   api:
-    build: .
+    build:
+      context: ./app
+      dockerfile: Dockerfile
     ports:
-      - "8000:8000"
+      - "${SERVICE_PORT}:8000"
     depends_on:
       - db
+    environment:
+      DATABASE_URL: "${DATABASE_URL}"
+
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - db_data:/var/lib/postgresql/data
 
   tests:
-    build: .
-    command: ["pytest", "--cov=app", "--cov-report=html"]
+    build:
+      context: ./tests
+      dockerfile: Dockerfile
     depends_on:
       - api
+      - db
+    command: ["sh", "-c", "pytest --cov=api --cov-report=html:/coverage_html_report"]
+    volumes:
+      - ./tests:/app/tests
+      - ./coverage:/app/coverage
+
+volumes:
+  db_data:
