@@ -117,6 +117,6 @@ class BLManager:
         if not data_reservation:
             raise HTTPException(status_code=404, detail="Резервация не найдена.")
 
-        return {"status": data_reservation.get("status"),
+        return {"status": data_reservation.status,
                 "message": "Reservation completed successfully.",
                 "reservation_id": reservation_id}

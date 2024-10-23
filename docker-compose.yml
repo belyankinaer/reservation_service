@@ -1,16 +1,6 @@
 version: '3.11'
 
 services:
-  api:
-    build:
-      context: .
-    ports:
-      - "${SERVICE_PORT}:8000"
-    depends_on:
-      - db
-    environment:
-      DATABASE_URL: "${DATABASE_URL}"
-
   db:
     image: postgres:latest
     restart: always
@@ -20,6 +10,17 @@ services:
       POSTGRES_DB: ${DB_NAME}
     volumes:
       - db_data:/var/lib/postgresql/data
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${SERVICE_PORT}:8000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: "postgresql+asyncpg://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}"
 
   tests:
     build:
@@ -34,4 +35,4 @@ services:
       - ./coverage:/app/coverage
 
 volumes:
-  db_data:
+  db_data: {}

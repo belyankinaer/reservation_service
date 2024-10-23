@@ -1,15 +1,16 @@
-import pytest
 from unittest.mock import AsyncMock, patch, ANY
+import pytest
 from app.bl_manager import BLManager
 from fastapi import HTTPException
+from app.models import Reservation
 
+class MockReservation:
+    def __init__(self, status):
+        self.status = status
 
 @pytest.fixture(params=['asyncio'])
 def aiolib(request):
     return request.param
-
-
-
 
 @pytest.mark.asyncio
 async def test_get_reservation_status_success(aiolib):
@@ -17,7 +18,7 @@ async def test_get_reservation_status_success(aiolib):
     bl_manager_instance = BLManager()
 
     reservation_id = "res_123"
-    mock_reservation_data = {"status": "reserved"}
+    mock_reservation_data = MockReservation(status="reserved")
 
     with patch.multiple(bl_manager_instance,
                         get_data_o_from_db=AsyncMock(return_value=mock_reservation_data)):
@@ -30,7 +31,6 @@ async def test_get_reservation_status_success(aiolib):
 
         bl_manager_instance.get_data_o_from_db.assert_awaited_once_with(type_o='Reservation', id_o=reservation_id,
                                                                         session=ANY)
-
 
 @pytest.mark.asyncio
 async def test_get_reservation_status_not_found(aiolib):
