@@ -5,4 +5,4 @@ Callback API для Управления Резервированием Това
 pytest -v --cov=app --cov-report=html tests/ 
 
 Для запуска контейнера:
-docker build . --file Dockerfile - запуск контейнера
+docker build . --file Dockerfile
