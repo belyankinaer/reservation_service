@@ -18,19 +18,21 @@ class DatabaseManager:
 
     async def create_database(self):
         engine = create_async_engine(URL_POSTGRES, echo=True)
-        async with engine.connect() as conn:
-            await conn.execution_options(isolation_level="AUTOCOMMIT")
-            result = await conn.execute(text("SELECT 1 FROM pg_database WHERE datname='reservation_service'"))
-            if not result.fetchone():
-                await conn.execute(text("CREATE DATABASE reservation_service;"))
-                self.logger.info("Database 'reservation_service' created successfully.")
-            else:
-                self.logger.info("Database 'reservation_service' already exists.")
+        try:
+            async with engine.connect() as conn:
+                await conn.execution_options(isolation_level="AUTOCOMMIT")
+                result = await conn.execute(text("SELECT 1 FROM pg_database WHERE datname='reservation_service'"))
+                if not result.fetchone():
+                    await conn.execute(text("CREATE DATABASE reservation_service;"))
+                    self.logger.info("Database 'reservation_service' created successfully.")
+                else:
+                    self.logger.info("Database 'reservation_service' already exists.")
+        except SQLAlchemyError as e:
+            self.logger.error(f"Error creating database: {e}")
 
     @async_session_decorator()
     async def create_tables(self, session):
         """Создание таблиц в базе данных reservation_service."""
-       #todo проверить создание продуктов потому что они как будто пересоздаются
 
         create_products_table = """
                 CREATE TABLE IF NOT EXISTS products (

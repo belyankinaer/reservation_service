@@ -4,10 +4,7 @@ from unittest.mock import AsyncMock, MagicMock
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.bl_manager import BLManager, Product, Reservation
 
-model_mapping = {
-    'Product': Product,
-    'Reservation': Reservation,
-}
+
 
 
 @pytest.mark.asyncio

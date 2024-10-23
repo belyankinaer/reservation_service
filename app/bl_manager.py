@@ -21,7 +21,6 @@ class BLManager:
         self.session = AsyncSession()
         self.db_manager = DatabaseManager()
 
-
     @async_session_decorator()
     async def reserve_item(self, reservation_id: str, product_id: str, quantity: int, timestamp: str,
                            session: AsyncSession) -> dict:
@@ -36,7 +35,6 @@ class BLManager:
         data_product = await self.get_data_o_from_db(type_o='Product', id_o=product_id, session=session)
         await self.update_product_at_stock(data_product=data_product, quantity=quantity, session=session)
         return await self.add_reservation(reservation_id, product_id, quantity, session)
-
 
     async def get_data_o_from_db(self, type_o: str, id_o: str, session) -> object:
         """
@@ -60,7 +58,6 @@ class BLManager:
             return result.scalars().first()
         except SQLAlchemyError as e:
             self.logger.error(f"Error getting data from database: {e}")
-
 
     @staticmethod
     async def check_quantity_product_at_stock(data_product: Product, quantity: int):
@@ -88,7 +85,6 @@ class BLManager:
             .where(Product.product_id == data_product.product_id)
             .values(quantity=new_quantity, updated_at=func.now())
         )
-
 
     async def add_reservation(self, reservation_id: str, product_id: str, quantity: int, session) -> dict:
         """
@@ -119,8 +115,8 @@ class BLManager:
         """
         data_reservation = await self.get_data_o_from_db(type_o='Reservation', id_o=reservation_id, session=session)
         if not data_reservation:
-            raise HTTPException(status_code=404, detail="Резервация не найдена.")
+            raise HTTPException(status_code=404, detail="Резервация не найдена.")
 
-        return {"status": data_reservation.status,
+        return {"status": data_reservation.get("status"),
                 "message": "Reservation completed successfully.",
                 "reservation_id": reservation_id}
