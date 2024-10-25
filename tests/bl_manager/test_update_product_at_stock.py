@@ -41,4 +41,4 @@ async def test_update_product_at_stock_not_enough_quantity():
         await bl_manager.update_product_at_stock(data_product, quantity_to_reserve, mock_session)
 
     assert exc_info.value.status_code == 400
-    assert exc_info.value.detail == "Недостаточно товара на складе."
+    assert exc_info.value.detail == "Недостаточно товара на складе.Количество остатка: 2"

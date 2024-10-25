@@ -7,10 +7,8 @@ from app.constants import DATABASE_URL
 
 class ReservationRequest(BaseModel):
     """ Модель запроса резервирования """
-    reservation_id: str
     product_id: str
     quantity: int
-    timestamp: str
 
 
 class ReservationStatusRequest(BaseModel):

@@ -8,10 +8,8 @@ bl_manager = BLManager()
 
 @router.post("/api/v1/reserve", response_model=dict, description="Метод для резервирования товаров")
 async def reserve_item_api(reservation_request: ReservationRequest):
-    return await bl_manager.reserve_item(reservation_id=reservation_request.reservation_id,
-                                         product_id=reservation_request.product_id,
-                                         quantity=reservation_request.quantity,
-                                         timestamp=reservation_request.timestamp)
+    return await bl_manager.reserve_item(product_id=reservation_request.product_id,
+                                         quantity=reservation_request.quantity)
 
 
 @router.post("/api/v1/get_reservation_status/{reservation_id}", response_model=dict,

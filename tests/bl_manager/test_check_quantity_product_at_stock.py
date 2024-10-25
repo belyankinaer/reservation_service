@@ -18,6 +18,7 @@ async def test_check_quantity_product_at_stock_success():
     except HTTPException as e:
         pytest.fail(f"Function raised an exception: {e.detail}")
 
+
 @pytest.mark.asyncio
 async def test_check_quantity_product_at_stock_not_enough_quantity():
     """Проверка на работу функции check_quantity_product_at_stock для недостаточного количества товара"""
@@ -30,4 +31,4 @@ async def test_check_quantity_product_at_stock_not_enough_quantity():
         await bl_manager.check_quantity_product_at_stock(data_product, quantity_to_reserve)
 
     assert exc_info.value.status_code == 400
-    assert exc_info.value.detail == "Недостаточно товара на складе."
+    assert exc_info.value.detail == "Недостаточно товара на складе.Количество остатка: 2"
